@@ -15,7 +15,7 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "capistrano-node"
-  gem.homepage = "http://github.com/lautis/capistrano-node"
+  gem.homepage = "https://github.com/flowdock/capistrano-node"
   gem.license = "MIT"
   gem.summary = %Q{Capistrano scripts for Node deployment}
   gem.description = %Q{TODO: longer description of your gem}
@@ -29,11 +29,6 @@ require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
-end
-
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
 end
 
 task :default => :spec
