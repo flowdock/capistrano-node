@@ -37,6 +37,8 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
     Capistrano::Node.choose_version requirement, available_node_versions
   end
 
+  set :normalize_asset_timestamps, false
+
   namespace :node do
     desc 'List available node versions'
     task :versions do
