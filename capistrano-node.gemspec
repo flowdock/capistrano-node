@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = "capistrano-node"
-  s.version = "0.0.0"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ville Lautanala"]
   s.date = "2012-03-26"
-  s.description = "TODO: longer description of your gem"
+  s.description = "Capistrano scripts to handle Node deployment"
   s.email = "lautis@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt"
