@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "https://github.com/flowdock/capistrano-node"
   gem.license = "MIT"
   gem.summary = %Q{Capistrano scripts for Node deployment}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.description = %Q{Capistrano scripts to handle Node deployment}
   gem.email = "lautis@gmail.com"
   gem.authors = ["Ville Lautanala"]
   # dependencies defined in Gemfile
