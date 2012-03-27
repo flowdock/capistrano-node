@@ -2,6 +2,7 @@ require 'capistrano-node'
 require 'term/ansicolor'
 include Term::ANSIColor
 
+# Available local Node versions
 def local_versions(path, prefix)
   Dir.entries(path).select do |n|
     n[0] != '.'
@@ -10,6 +11,7 @@ def local_versions(path, prefix)
   end
 end
 
+# Available remote Node versions
 def remote_versions(path, prefix)
   capture("ls #{path}").chomp.split("\n").map do |ver|
     Capistrano::Node.version ver, prefix
@@ -21,9 +23,11 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
   after :'deploy:update_code', :'deploy:npm'
 
   set :multi_node, false unless defined? multi_node
-  set :local, false unless defined? local
-  set :node_dir, '/opt/nodejs/versions' unless defined? node_dir
-  set :version_prefix, 'v' unless defined? version_prefix
+  set :local, false unless defined? local # Local run?
+  set :node_dir, '/opt/nodejs/versions' unless defined? node_dir # Node versions dir
+  set :version_prefix, 'v' unless defined? version_prefix # Prefix for versin dirs, (v0.6.10 -> 'v')
+
+  # Lazy variable to list available node versions from either local or remote
   set :available_node_versions do
     if local
       local_versions node_dir, version_prefix
@@ -32,12 +36,13 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
     end.sort
   end
 
+  # Export used Node version from package.json
   set :node_version do
     requirement = Capistrano::Node.requirement 'package.json'
     Capistrano::Node.choose_version requirement, available_node_versions
   end
 
-  set :normalize_asset_timestamps, false
+  set :normalize_asset_timestamps, false # Don't touch public/images etc.
 
   namespace :node do
     desc 'List available node versions'
