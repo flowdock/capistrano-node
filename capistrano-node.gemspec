@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "capistrano-node"
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ville Lautanala"]
-  s.date = "2012-03-27"
+  s.date = "2012-08-26"
   s.description = "Capistrano scripts to handle Node deployment"
   s.email = "lautis@gmail.com"
   s.extra_rdoc_files = [
@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/flowdock/capistrano-node"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
+  s.rubygems_version = "1.8.23"
   s.summary = "Capistrano scripts for Node deployment"
 
   if s.respond_to? :specification_version then
