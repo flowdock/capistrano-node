@@ -67,7 +67,7 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
 
     desc 'Symlink node version'
     task :symlink_node do
-      return unless multi_node
+      next unless multi_node
 
       unless node_version
         puts red('No suitable node version found')
