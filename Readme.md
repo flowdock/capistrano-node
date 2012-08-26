@@ -48,6 +48,8 @@ from `package.json`:
       "node": ">= 0.6.14"
     }
 
+We've also published our [Chef recipes for installing and distributing multiple Node versions](https://github.com/flowdock/nodejs-cookbook).
+
 ## Copyright
 
 © [Flowdock](https://flowdock.com). See LICENSE.txt for further details.
