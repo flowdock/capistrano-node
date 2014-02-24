@@ -75,9 +75,9 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
       end
 
       if local
-        run_locally "ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin bin"
+        run_locally "mkdir bin;ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* bin"
       else
-        run "ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin #{release_path}/bin"
+        run "mkdir #{release_path}/bin; ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* #{release_path}/bin"
       end
     end
 
