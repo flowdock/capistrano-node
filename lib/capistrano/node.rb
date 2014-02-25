@@ -83,7 +83,7 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
 
     desc 'Build NPM packages'
     task :npm do
-      run "export PATH=#{release_path}/bin:$PATH && cd #{release_path} && npm install && npm rebuild"
+      run "export PATH=#{release_path}/bin:$PATH && cd #{release_path} && npm install --quiet && npm rebuild"
     end
   end
 end
