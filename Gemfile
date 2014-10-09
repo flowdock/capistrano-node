@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'term-ansicolor'
-gem 'capistrano', '~> 2.11'
+gem 'capistrano', '~> 3.0'
 
 group :development do
   gem 'rspec', '~> 2.9'

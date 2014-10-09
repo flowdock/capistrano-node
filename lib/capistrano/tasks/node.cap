@@ -1,0 +1,73 @@
+set :multi_node, false unless defined? multi_node
+set :local, false unless defined? local # Local run?
+set :node_dir, '/opt/nodejs/versions' unless defined? node_dir # Node versions dir
+set :version_prefix, 'v' unless defined? version_prefix # Prefix for versin dirs, (v0.6.10 -> 'v')
+
+# Lazy variable to list available node versions from either local or remote
+set(:available_node_versions, Proc.new do
+  if local
+    local_versions node_dir, version_prefix
+  else
+    remote_versions node_dir, version_prefix
+  end.sort
+end)
+
+# Export used Node version from package.json
+set(:node_version, Proc.new do
+  requirement = Capistrano::Node.requirement 'package.json'
+  Capistrano::Node.choose_version requirement, available_node_versions
+end)
+
+set :normalize_asset_timestamps, false # Don't touch public/images etc.
+
+namespace :node do
+  desc 'List available node versions'
+  task :versions do
+    puts fetch(:available_node_versions)
+  end
+
+  desc 'Used Node version'
+  task :used do
+    if fetch(:node_version)
+      puts fetch(:node_version)
+    else
+      puts red('No suitable node version found')
+    end
+  end
+end
+
+namespace :deploy do
+  task :migrate do
+    # Skip migrations
+  end
+
+  desc 'Symlink node version'
+  task :symlink_node do
+    next unless fetch(:multi_node)
+
+    unless fetch(:node_version)
+      puts red('No suitable node version found')
+      exit
+    end
+
+    if fetch(:local)
+      sh "mkdir bin;ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* bin"
+    else
+      on roles(:all) do
+        execute "mkdir #{release_path}/bin; ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* #{release_path}/bin"
+      end
+    end
+  end
+
+  desc 'Build NPM packages'
+  task :npm do
+    on roles(:all) do
+      execute "export PATH=#{release_path}/bin:$PATH && cd #{release_path} && npm install --quiet && npm rebuild"
+    end
+  end
+end
+
+before "deploy:updated", "deploy:symlink_node"
+after "deploy:updated", "deploy:npm"
+
+

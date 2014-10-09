@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Ville Lautanala"]
-  s.date = "2014-02-25"
+  s.date = "2014-10-09"
   s.description = "Capistrano scripts to handle Node deployment"
   s.email = "lautis@gmail.com"
   s.extra_rdoc_files = [
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "https://github.com/flowdock/capistrano-node"
   s.licenses = ["MIT"]
-  s.rubygems_version = "2.2.0"
+  s.rubygems_version = "2.2.1"
   s.summary = "Capistrano scripts for Node deployment"
 
   if s.respond_to? :specification_version then
@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<term-ansicolor>, [">= 0"])
-      s.add_runtime_dependency(%q<capistrano>, ["~> 2.11"])
+      s.add_runtime_dependency(%q<capistrano>, ["~> 3.0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.9"])
       s.add_development_dependency(%q<yard>, ["~> 0.7"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.3"])
     else
       s.add_dependency(%q<term-ansicolor>, [">= 0"])
-      s.add_dependency(%q<capistrano>, ["~> 2.11"])
+      s.add_dependency(%q<capistrano>, ["~> 3.0"])
       s.add_dependency(%q<rspec>, ["~> 2.9"])
       s.add_dependency(%q<yard>, ["~> 0.7"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<term-ansicolor>, [">= 0"])
-    s.add_dependency(%q<capistrano>, ["~> 2.11"])
+    s.add_dependency(%q<capistrano>, ["~> 3.0"])
     s.add_dependency(%q<rspec>, ["~> 2.9"])
     s.add_dependency(%q<yard>, ["~> 0.7"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
