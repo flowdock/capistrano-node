@@ -26,6 +26,7 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
   set :local, false unless defined? local # Local run?
   set :node_dir, '/opt/nodejs/versions' unless defined? node_dir # Node versions dir
   set :version_prefix, 'v' unless defined? version_prefix # Prefix for versin dirs, (v0.6.10 -> 'v')
+  set :npm_flags, '--production --quiet' unless defined? npm_flags
 
   # Lazy variable to list available node versions from either local or remote
   set :available_node_versions do
@@ -83,7 +84,7 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
 
     desc 'Build NPM packages'
     task :npm do
-      run "export PATH=#{release_path}/bin:$PATH && cd #{release_path} && npm install --quiet && npm rebuild"
+      run "export PATH=#{release_path}/bin:$PATH && cd #{release_path} && npm install #{npm_flags} && npm rebuild"
     end
   end
 end
