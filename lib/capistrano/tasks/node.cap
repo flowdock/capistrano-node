@@ -1,21 +1,21 @@
-set :multi_node, false unless defined? multi_node
-set :local, false unless defined? local # Local run?
-set :node_dir, '/opt/nodejs/versions' unless defined? node_dir # Node versions dir
-set :version_prefix, 'v' unless defined? version_prefix # Prefix for versin dirs, (v0.6.10 -> 'v')
+set :multi_node, fetch(:multi_node) || false # Support multiple node versions
+set :local, fetch(:local) || false # Local run?
+set :node_dir, fetch(:node_dir) || '/opt/nodejs/versions' # Node versions dir
+set :version_prefix, fetch(:version_prefix) || 'v' # Prefix for versin dirs, (v0.6.10 -> 'v')
 
 # Lazy variable to list available node versions from either local or remote
 set(:available_node_versions, Proc.new do
-  if local
-    local_versions node_dir, version_prefix
+  if fetch :local
+    local_versions fetch(:node_dir), fetch(:version_prefix)
   else
-    remote_versions node_dir, version_prefix
+    remote_versions fetch(:node_dir), fetch(:version_prefix)
   end.sort
 end)
 
 # Export used Node version from package.json
 set(:node_version, Proc.new do
   requirement = Capistrano::Node.requirement 'package.json'
-  Capistrano::Node.choose_version requirement, available_node_versions
+  Capistrano::Node.choose_version requirement, fetch(:available_node_versions)
 end)
 
 set :normalize_asset_timestamps, false # Don't touch public/images etc.
@@ -51,10 +51,10 @@ namespace :deploy do
     end
 
     if fetch(:local)
-      sh "mkdir bin;ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* bin"
+      sh "mkdir bin;ln -snf #{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin/* bin"
     else
       on roles(:all) do
-        execute "mkdir #{release_path}/bin; ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* #{release_path}/bin"
+        execute "mkdir #{release_path}/bin; ln -snf #{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin/* #{release_path}/bin"
       end
     end
   end
