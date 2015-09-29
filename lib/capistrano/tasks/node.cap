@@ -2,6 +2,7 @@ set :multi_node, fetch(:multi_node) || false # Support multiple node versions
 set :local, fetch(:local) || false # Local run?
 set :node_dir, fetch(:node_dir) || '/opt/nodejs/versions' # Node versions dir
 set :version_prefix, fetch(:version_prefix) || 'v' # Prefix for versin dirs, (v0.6.10 -> 'v')
+set :npm_flags, fetch(:npm_flags) || '--production --quiet' # Which command line parameters to give npm
 
 # Lazy variable to list available node versions from either local or remote
 set(:available_node_versions, Proc.new do
@@ -64,7 +65,7 @@ namespace :deploy do
   desc 'Build NPM packages'
   task :npm do
     on roles(:all) do
-      execute "export PATH=#{release_path}/bin:$PATH && cd #{release_path} && npm install --quiet && npm rebuild"
+      execute "export PATH=#{release_path}/bin:$PATH && cd #{release_path} && npm install #{fetch(:npm_flags)} && npm rebuild"
     end
   end
 end
