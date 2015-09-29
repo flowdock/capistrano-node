@@ -20,6 +20,8 @@ end)
 
 set :normalize_asset_timestamps, false # Don't touch public/images etc.
 
+set :node_version_dir, "#{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin"
+
 namespace :node do
   desc 'List available node versions'
   task :versions do
@@ -51,10 +53,10 @@ namespace :deploy do
     end
 
     if fetch(:local)
-      sh "mkdir bin;ln -snf #{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin/* bin"
+      sh "mkdir bin;ln -snf #{fetch(:node_version_dir)}/* bin"
     else
       on roles(:all) do
-        execute "mkdir #{release_path}/bin; ln -snf #{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin/* #{release_path}/bin"
+        execute "mkdir #{release_path}/bin; ln -snf #{fetch(:node_version_dir)}/* #{release_path}/bin"
       end
     end
   end
