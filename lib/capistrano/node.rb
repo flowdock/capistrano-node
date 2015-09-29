@@ -43,6 +43,8 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
     Capistrano::Node.choose_version requirement, available_node_versions
   end
 
+  set :node_version_dir, "#{node_dir}/#{version_prefix}#{:node_version}/bin"
+
   set :normalize_asset_timestamps, false # Don't touch public/images etc.
 
   namespace :node do
@@ -76,9 +78,9 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
       end
 
       if local
-        run_locally "mkdir bin;ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* bin"
+        run_locally "mkdir bin;ln -snf #{node_version_dir}/* bin"
       else
-        run "mkdir #{release_path}/bin; ln -snf #{node_dir}/#{version_prefix}#{node_version}/bin/* #{release_path}/bin"
+        run "mkdir #{release_path}/bin; ln -snf #{node_version_dir}/* #{release_path}/bin"
       end
     end
 
