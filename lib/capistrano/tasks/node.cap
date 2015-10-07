@@ -1,8 +1,9 @@
-set :multi_node, fetch(:multi_node) || false # Support multiple node versions
-set :local, fetch(:local) || false # Local run?
-set :node_dir, fetch(:node_dir) || '/opt/nodejs/versions' # Node versions dir
-set :version_prefix, fetch(:version_prefix) || 'v' # Prefix for versin dirs, (v0.6.10 -> 'v')
-set :npm_flags, fetch(:npm_flags) || '--production --quiet' # Which command line parameters to give npm
+set :multi_node, fetch(:multi_node, false) # Support multiple node versions
+set :local, fetch(:local, false) # Local run?
+set :node_dir, fetch(:node_dir, '/opt/nodejs/versions') # Node versions dir
+set :version_prefix, fetch(:version_prefix, 'v') # Prefix for versin dirs, (v0.6.10 -> 'v')
+set :npm_flags, fetch(:npm_flags, '--production --quiet') # Which command line parameters to give npm
+set :force_node_version, fetch(:force_node_version, false)
 
 # Lazy variable to list available node versions from either local or remote
 set(:available_node_versions, Proc.new do
@@ -15,8 +16,12 @@ end)
 
 # Export used Node version from package.json
 set(:node_version, Proc.new do
-  requirement = Capistrano::Node.requirement 'package.json'
-  Capistrano::Node.choose_version requirement, fetch(:available_node_versions)
+  if fetch(:force_node_version)
+    Capistrano::Node.exact_requirement 'package.json'
+  else
+    requirement = Capistrano::Node.requirement 'package.json'
+    Capistrano::Node.choose_version requirement, fetch(:available_node_versions)
+  end
 end)
 
 set :normalize_asset_timestamps, false # Don't touch public/images etc.

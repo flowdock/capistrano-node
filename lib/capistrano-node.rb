@@ -29,14 +29,23 @@ module Capistrano
       end
     end
 
-    # Internal: Parse requirement from package.json
+    # Internal: Parse requirement from `file`
     #
     # file - package.json file object
     #
     # Returns Gem::Requirement
     def requirement(file)
-      json = JSON.parse(File.open('package.json', 'r:utf-8').read)
-      Gem::Requirement.create(json['engines']['node'])
+      Gem::Requirement.create(raw_requirement(file))
     end
-  end
+
+    def exact_requirement(file)
+      requirement = raw_requirement(file)
+      raise "No exact node version specified" unless Gem::Requirement.create(requirement).exact?
+      requirement
+    end
+
+    def raw_requirement(file)
+      json = JSON.parse(File.open(file, 'r:utf-8').read)
+      json['engines']['node'].strip
+    end
 end
