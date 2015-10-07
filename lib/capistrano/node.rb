@@ -48,7 +48,9 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
     end
   end
 
-  set :node_version_dir, "#{node_dir}/#{version_prefix}#{node_version}/bin"
+  set :node_version_dir do
+    "#{node_dir}/#{version_prefix}#{node_version}/bin"
+  end
 
   set :normalize_asset_timestamps, false # Don't touch public/images etc.
 
