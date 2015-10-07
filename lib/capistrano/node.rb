@@ -22,12 +22,12 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
   after :'deploy:finalize_update', :'deploy:symlink_node'
   after :'deploy:update_code', :'deploy:npm'
 
-  set :multi_node, false unless defined? multi_node
-  set :local, false unless defined? local # Local run?
-  set :node_dir, '/opt/nodejs/versions' unless defined? node_dir # Node versions dir
-  set :version_prefix, 'v' unless defined? version_prefix # Prefix for versin dirs, (v0.6.10 -> 'v')
-  set :npm_flags, '--production --quiet' unless defined? npm_flags
-  set :force_node_version, false unless defined? force_node_version
+  set :multi_node, fetch(:multi_node, false)
+  set :local, fetch(:local, false) # Local run?
+  set :node_dir, fetch(:node_dir, '/opt/nodejs/versions') # Node versions dir
+  set :version_prefix, fetch(:version_prefix, 'v') # Prefix for versin dirs, (v0.6.10 -> 'v')
+  set :npm_flags, fetch(:npm_flags, '--production --quiet')
+  set :force_node_version, fetch(:force_node_version, false)
 
   # Lazy variable to list available node versions from either local or remote
   set :available_node_versions do
