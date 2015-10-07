@@ -26,7 +26,9 @@ end)
 
 set :normalize_asset_timestamps, false # Don't touch public/images etc.
 
-set :node_version_dir, "#{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin"
+set :node_version_dir do
+  "#{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin"
+end
 
 namespace :node do
   desc 'List available node versions'
