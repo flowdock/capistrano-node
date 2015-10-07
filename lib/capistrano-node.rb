@@ -48,4 +48,5 @@ module Capistrano
       json = JSON.parse(File.open(file, 'r:utf-8').read)
       json['engines']['node'].strip
     end
+  end
 end
