@@ -27,6 +27,7 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
   set :node_dir, '/opt/nodejs/versions' unless defined? node_dir # Node versions dir
   set :version_prefix, 'v' unless defined? version_prefix # Prefix for versin dirs, (v0.6.10 -> 'v')
   set :npm_flags, '--production --quiet' unless defined? npm_flags
+  set :force_node_version, false unless defined? force_node_version
 
   # Lazy variable to list available node versions from either local or remote
   set :available_node_versions do
@@ -39,8 +40,12 @@ Capistrano::Configuration.instance(:must_exist).load do |configuration|
 
   # Export used Node version from package.json
   set :node_version do
-    requirement = Capistrano::Node.requirement 'package.json'
-    Capistrano::Node.choose_version requirement, available_node_versions
+    if force_node_version
+      Capistrano::Node.exact_requirement 'package.json'
+    else
+      requirement = Capistrano::Node.requirement 'package.json'
+      Capistrano::Node.choose_version requirement, available_node_versions
+    end
   end
 
   set :node_version_dir, "#{node_dir}/#{version_prefix}#{node_version}/bin"
