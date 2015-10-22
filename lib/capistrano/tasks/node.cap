@@ -26,7 +26,7 @@ end)
 
 set :normalize_asset_timestamps, false # Don't touch public/images etc.
 
-set :node_version_dir do
+set :node_version_dir, Proc.new do
   "#{fetch(:node_dir)}/#{fetch(:version_prefix)}#{fetch(:node_version)}/bin"
 end
 
