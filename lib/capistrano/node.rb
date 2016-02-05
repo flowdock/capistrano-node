@@ -13,8 +13,10 @@ end
 
 # Available remote Node versions
 def remote_versions(path, prefix)
-  capture("ls #{path}").chomp.split("\n").map do |ver|
-    Capistrano::Node.version ver, prefix
+  on roles(:all) do
+    capture("ls #{path}").chomp.split("\n").map do |ver|
+      Capistrano::Node.version ver, prefix
+    end
   end
 end
 
