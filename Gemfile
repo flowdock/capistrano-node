@@ -2,7 +2,8 @@ source 'http://rubygems.org'
 
 gem 'term-ansicolor'
 gem 'capistrano', '~> 2.11'
-
+gem 'rack', '~>1.6.8'
+gem 'rake', '< 11.0'
 group :development do
   gem 'rspec', '~> 2.9'
   gem 'yard', '~> 0.7'
